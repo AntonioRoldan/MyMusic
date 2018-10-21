@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('./src/db')
+const db = require('./src/db/db')
 
 const app = express();
 
@@ -10,7 +10,9 @@ app.get('/okay', (req, res) => {
 })
 
 app.get('/items', (req, res) => {
-    res.send(db.getItems())
+    db.getItems((err, items) => {
+        res.send(items)
+    })
 })
 
 app.listen(port, () => console.log(`App listening on port ${port}`));
