@@ -1,13 +1,12 @@
 const mongoose = require('./mongoose');
-const {ObjectID} = require('mongodb')
 const Advert = require('./models/advert')
 
-function getItems(callback) {
+function getAdverts(callback) {
     Advert.find({}).then((adverts) => {
-        console.log('Adverts: ', adverts);
+        adverts.sort((a, b) => a.views > b.views)
         callback(null, adverts)
     })
 }
 
-module.exports = {getItems};
+module.exports = {getAdverts};
 
