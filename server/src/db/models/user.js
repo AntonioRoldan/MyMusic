@@ -18,8 +18,17 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 1,
         trim: true,
+    },
+    rating: {
+        type: Number,
+        required: false
+    }, 
+    wishlist: {
+        type: Array,
+        required: false 
     }
+    //Add a user's adverts 
 });
 
-const User = new mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 module.exports = User;
