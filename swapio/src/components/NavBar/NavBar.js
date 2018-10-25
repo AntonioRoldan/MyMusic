@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import './NavBar.css';
-
+import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavItem, FormGroup, FormControl, Button } from 'react-bootstrap';
+
+import './NavBar.css';
 
 class NavBar extends Component {
   render() {
     return (
       <Navbar>
         <Navbar.Header>
-          <Navbar.Brand>
-            <a href="#home">Swapio</a>
-          </Navbar.Brand>
+          <Link to="/">
+            <Navbar.Brand>Swapio</Navbar.Brand>
+          </Link>
         </Navbar.Header>
         <Nav>
-          <NavItem eventKey={1} href="#">Link</NavItem>
-          <NavItem eventKey={2} href="#">Link</NavItem>
+          <NavItem eventKey={1}><Link to="/login">Login</Link></NavItem>
         </Nav>
         <Navbar.Collapse>
           <Navbar.Form pullLeft>
