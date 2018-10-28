@@ -29,6 +29,15 @@ function newSession (email, callback) {
     });
 }
 
+function getSession(session, callback) {
+    Session.findOne({
+        APIkey: session
+    }, (err, data) => {
+        if (err) return callback({})
+        return callback(data)
+    })
+}
+
 function checkSession(email, APIkey, callback) { 
     Session.findOne({
         email: email,
@@ -46,4 +55,4 @@ function checkSession(email, APIkey, callback) {
     });
 }
 
-module.exports = { newSession, checkSession }
+module.exports = { newSession, checkSession, invalidatePrevSessions, getSession }

@@ -22,12 +22,10 @@ class Login extends Component {
       password: this.state.password
     })
       .then(res => {
-        console.log(res)
         setCookie('session', res.data)
-        // set session cookie
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
   }
 

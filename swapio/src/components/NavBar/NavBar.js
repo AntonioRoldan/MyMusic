@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavItem, FormGroup, FormControl, Button } from 'react-bootstrap';
+import UserBar from '../UserBar/UserBar'
 
 import './NavBar.css';
 
@@ -13,9 +14,6 @@ class NavBar extends Component {
             <Navbar.Brand>Swapio</Navbar.Brand>
           </Link>
         </Navbar.Header>
-        <Nav>
-          <NavItem eventKey={1}><Link to="/login">Login</Link></NavItem>
-        </Nav>
         <Navbar.Collapse>
           <Navbar.Form pullLeft>
             <FormGroup>
@@ -23,6 +21,9 @@ class NavBar extends Component {
             </FormGroup>{' '}
             <Button type="submit">Submit</Button>
           </Navbar.Form>
+          <Nav pullRight>
+            <UserBar/>
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     );

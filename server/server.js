@@ -23,6 +23,10 @@ app.post('/login', (req, res) => {
     db.loginUser(req.body.email, req.body.password, res)
 })
 
+app.post('/logout', (req, res) => {
+    db.logoutUser(req.body.session, res)
+})
+
 app.get('/adverts', (req, res) => {
     db.getAdverts((err, items) => {
         res.send(items)

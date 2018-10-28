@@ -27,7 +27,7 @@ class AdvertList extends Component {
 
     return (
       <div className="AdvertList">
-        {adverts.map(a => <Advert advert={a} />)}
+        {adverts.map(a => <Advert key={a._id} advert={a} />)}
       </div>
     );
   }

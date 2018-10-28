@@ -38,6 +38,14 @@ function registerUser(username, email, password, res) {
     })
 }
 
+function logoutUser(APIkey, res) {
+    sessions.getSession(APIkey, session => {
+        sessions.invalidatePrevSessions(session.email, () => {
+            res.send('Success')
+        })    
+    })
+}
+
 function loginUser(email, password, res){
     User.findOne({email: email}, (err, user) => {
         if(err){
@@ -58,5 +66,5 @@ function loginUser(email, password, res){
 }
 
 
-module.exports = {getAdverts, registerUser, loginUser};
+module.exports = {getAdverts, registerUser, loginUser, logoutUser};
 
