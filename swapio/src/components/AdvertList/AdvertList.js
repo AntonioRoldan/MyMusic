@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './AdvertList.css';
+import axios from 'axios'
 
 import Advert from '../Advert/Advert'
 
@@ -9,12 +10,14 @@ class AdvertList extends Component {
   }
 
   constructor() {
-    fetch('http://localhost:4000/adverts')
-      .then(res => res.json())
-      .then(resJson => {
+    axios.get('http://localhost:4000/adverts')
+      .then(res => {
         this.setState({
-          adverts: resJson
+          adverts: res.data
         });
+      })
+      .catch(error => {
+        console.log(error)
       })
     
     super();
