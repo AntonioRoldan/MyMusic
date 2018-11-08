@@ -1,8 +1,14 @@
 
 function validUser (user) {
-    return validEmail(user.email)
-        && validUsername(user.username)
-        && validPassword(user.password)
+    return validEmail(user.email) && validUsername(user.username) && validPassword(user.password) 
+    && passwordMatch(user.password, user.confirmpassword)
+}
+
+function passwordMatch(password, confirmpassword){
+    if (password != confirmpassword) {
+        throw new Error('Passwords do not match')
+    } 
+    return true 
 }
 
 function validEmail (email) {
@@ -11,7 +17,7 @@ function validEmail (email) {
 
 const validUsername = username => {
     if (username.length <= 0) {
-        throw new Error('Username not long enough not long enough')
+        throw new Error('Username not long enough')
     }
     return true
 }

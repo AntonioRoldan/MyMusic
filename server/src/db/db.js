@@ -11,24 +11,42 @@ function getAdverts(callback) {
     })
 }
 
-function registerUser(username, email, password, res) {
-    User.findOne({email: email}, (err, user) => {
-        if(err){ 
+function postAdvert(email, title, description, tradefor, category, postcode, condition, res) {
+    a = new Advert({
+        userEmail: email,
+        title: title,
+        description: description,
+        tradefor: tradefor,
+        category: category,
+        postcode: postcode,
+        condition: condition
+    })
+    a.save().then((advertData) => {
+        res.send(advertData)
+    }, e => {
+        res.status(400).send(e.message)
+    })
+}
+
+function registerUser(username, email, password, confirmpassword, res) {
+    User.findOne({ email: email }, (err, user) => {
+        if (err) {
             res.status(500).send(err)
         }
-        if(user) { //If the user already exists 
+        if (user) { //If the user already exists 
             res.status(400).send('Email already exists')
         } else {
             try {
                 validation.validUser({
                     username: username,
                     email: email,
-                    password: password
+                    password: password,
+                    confirmpassword: confirmpassword
                 })
             } catch (e) {
-                res.status(400).send(e)
+                return res.status(400).send(e.message)
             }
-            var u = new User({username: username, email: email, password: password})
+            var u = new User({ username: username, email: email, password: password })
             u.save().then((userData) => {
                 res.send(userData)
             }, e => {
@@ -40,19 +58,34 @@ function registerUser(username, email, password, res) {
 
 function logoutUser(APIkey, res) {
     sessions.getSession(APIkey, session => {
-        sessions.invalidatePrevSessions(session.email, () => {
-            res.send('Success')
-        })    
+        if (session) {
+            sessions.invalidatePrevSessions(session.email, () => {
+                res.send('Success')
+            })
+        } else {
+            res.send(`Cannot find session ${APIkey}`)
+        }
     })
 }
 
-function loginUser(email, password, res){
-    User.findOne({email: email}, (err, user) => {
-        if(err){
+function checkSession(APIkey, res) {
+    sessions.getSession(APIkey, session => res.send(!!session))
+}
+
+function whoAmI(APIkey, res) {
+    sessions.emailFromSession(APIkey, email => {
+        if (email) return res.send(email)
+        res.status(404).send("")
+    })
+}
+
+function loginUser(email, password, res) {
+    User.findOne({ email: email }, (err, user) => {
+        if (err) {
             res.status(500).send(err)
-        } 
-        if(user){
-            if(user.password == password){
+        }
+        if (user) {
+            if (user.password == password) {
                 sessions.newSession(email, APIkey => {
                     res.send(APIkey);
                 })
@@ -66,5 +99,12 @@ function loginUser(email, password, res){
 }
 
 
-module.exports = {getAdverts, registerUser, loginUser, logoutUser};
-
+module.exports = {
+    getAdverts,
+    registerUser,
+    loginUser,
+    logoutUser,
+    checkSession,
+    postAdvert,
+    whoAmI
+};

@@ -55,4 +55,13 @@ function checkSession(email, APIkey, callback) {
     });
 }
 
-module.exports = { newSession, checkSession, invalidatePrevSessions, getSession }
+function emailFromSession(APIkey, callback) {
+    Session.findOne({
+        APIkey: APIkey
+    }, (err, session) => {
+        if (err) return callback("")
+        return callback(session.email)
+    });
+}
+
+module.exports = { newSession, checkSession, invalidatePrevSessions, getSession, emailFromSession }

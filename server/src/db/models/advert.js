@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const advertSchema = new mongoose.Schema({
-    userId: { // user _id will be used
+    userEmail: { // user _id will be used
         type: String,
         required: true,
         minlength: 1,
@@ -25,15 +25,17 @@ const advertSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    location: {
+    postcode: {
         type: String,
         required: true,
     },
     views: {
         type: Number,
+        required: false
     }, 
     condition: {
-        type: Number
+        type: Number,
+        required: true
     },
 });
 
