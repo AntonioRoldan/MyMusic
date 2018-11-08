@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Nav, FormGroup, FormControl, Button } from 'react-bootstrap';
 import UserBar from '../UserBar/UserBar'
 
 import './NavBar.css';
@@ -19,10 +19,10 @@ class NavBar extends Component {
             <FormGroup>
               <FormControl type="text" placeholder="Search" />
             </FormGroup>{' '}
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Search</Button>
           </Navbar.Form>
-          <Nav pullRight>
-            <UserBar/>
+          <Nav pullRight> {/* Once loggedin has been passed as a prop to navbar we send it as a prop to userbar*/}
+            <UserBar loggedIn={this.props.loggedIn}/>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

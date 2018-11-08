@@ -12,7 +12,7 @@ class Advert extends Component {
         <img src="https://via.placeholder.com/200x200" alt="item"/>
         <div className="details">
           <h2>{advert.title}</h2>
-          <p>Location: {advert.location}</p>
+          <p>Location: {advert.postcode}</p>
           <p>{advert.description}</p>
         </div>
       </Panel>

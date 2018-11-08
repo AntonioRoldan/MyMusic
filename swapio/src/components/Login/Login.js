@@ -5,24 +5,19 @@ import axios from 'axios'
 import { setCookie } from '../../cookies'
 
 class Login extends Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.login = this.login.bind(this);
-  }
-
   state = {
     email: '',
     password: ''
   };
 
-  login() {
+  login = () => {
     axios.post('http://localhost:4000/login', {
       email: this.state.email,
       password: this.state.password
     })
       .then(res => {
         setCookie('session', res.data)
+        this.props.update(true, this.state.email)
       })
       .catch(err => {
         console.error(err)
