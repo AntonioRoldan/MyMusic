@@ -7,6 +7,7 @@ import AdvertList from './components/AdvertList/AdvertList';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import Postadvert from './components/Postadvert/Postadvert'
+import AdvertPage from './components/AdvertPage/AdvertPage'
 
 import cookies from './cookies'
 import axios from 'axios'
@@ -55,6 +56,7 @@ class App extends Component {
             <Route path="/login" component={() => <Login update={this.update} />} />
             <Route path="/register" component={() => <Signup update={this.update}/>} />
             <Route path="/postadvert" exact component={() => <Postadvert email={this.state.email}/>} />
+            <Route path="/advert/:id" exact component={AdvertPage} />
           </div>
         </div>
       </Router>

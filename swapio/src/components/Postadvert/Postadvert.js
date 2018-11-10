@@ -10,7 +10,8 @@ class Postadvert extends Component {
     tradefor: [],
     category:'',
     postcode:'',
-    condition: 0
+    condition: 0,
+    imgurl: ''
   }
 
   postadvert = () => {
@@ -23,7 +24,8 @@ class Postadvert extends Component {
       tradefor: tradefor,
       category: this.state.category,
       postcode: this.state.postcode,
-      condition: parseInt(this.state.condition)
+      condition: parseInt(this.state.condition),
+      imgurl: this.state.imgurl
     }
     console.log('posting advert: ', form)
     
@@ -44,6 +46,7 @@ class Postadvert extends Component {
 
   render() {
     return (
+
       <Form horizontal>
         <FormGroup controlId="formHorizontalTitle">
           <ControlLabel>Title</ControlLabel>
@@ -51,6 +54,15 @@ class Postadvert extends Component {
               type="text"
               placeholder="Give a title to your advert"
               name="title"
+              onChange={this.handleChange} />
+        </FormGroup>
+
+        <FormGroup controlId="formHorizontalUrl">
+          <ControlLabel>Image</ControlLabel>
+            <FormControl
+              type="text"
+              placeholder="Give an image url"
+              name="imgurl"
               onChange={this.handleChange} />
         </FormGroup>
 
