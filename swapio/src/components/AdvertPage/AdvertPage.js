@@ -6,6 +6,7 @@ import './AdvertPage.css'
 import cookies from '../../cookies'
 class AdvertPage extends Component {
   state = {
+    posterUsername: "",
     session: "",
     userEmail: "",
     advertId: "",
@@ -43,9 +44,19 @@ class AdvertPage extends Component {
   }
 
   getPosterId = (posterEmail) => {
-    axios.get(`http://localhost:4000/user-id/${posterEmail}`)
+    axios.get(`http://localhost:4000/poster-id/${posterEmail}`)
     .then(res => {
       this.setState({posterId: res.data})
+    })
+    .catch(() => {
+      this.setState({error: true})
+    })
+  }
+
+  getPosterUsername = (posterEmail) => {
+    axios.get(`http://localhost:4000/poster-username/${posterEmail}`)
+    .then(res => {
+      this.setState({posterUsername: res.data})
     })
     .catch(() => {
       this.setState({error: true})
@@ -62,6 +73,7 @@ class AdvertPage extends Component {
           this.setState({
             advert: res.data
           }, () => {
+            this.getPosterUsername(this.state.advert.userEmail)
             this.getPosterId(this.state.advert.userEmail)
           })
         })
@@ -95,6 +107,7 @@ class AdvertPage extends Component {
         <img src={advert.imgurl || "https://via.placeholder.com/200x200"} alt="item" class="advertimg"/>
         <div className="details">
           <h2>{advert.title}</h2>
+          <p>Posted by: <Link to={`/users/${this.state.posterId}`}>{this.state.posterUsername}</Link></p>
           <p>Location: {advert.postcode}</p>
           <p>{advert.description}</p>
           <p>Category: {advert.category}</p>
