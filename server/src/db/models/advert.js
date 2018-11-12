@@ -37,6 +37,10 @@ const advertSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    imgurl: {
+        type: String,
+        required: true
+    }
 });
 
 const Advert = mongoose.model('Advert', advertSchema);

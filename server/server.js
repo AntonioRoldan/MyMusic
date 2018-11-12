@@ -12,7 +12,11 @@ app.use(cors())
 const port = 4000;
 
 app.post('/register', (req, res) => {
-    db.registerUser(req.body.username, req.body.email, req.body.password, req.body.confirmpassword, res)
+    db.registerUser(req.body.username,
+        req.body.email,
+        req.body.password, 
+        req.body.confirmpassword, 
+        res)
 })
 
 app.post('/postadvert', (req, res) => {
@@ -24,8 +28,17 @@ app.post('/postadvert', (req, res) => {
         req.body.category,
         req.body.postcode,
         req.body.condition,
+        req.body.imgurl,
         res
     )
+})
+
+app.get('/getAdvert/:advertId', (req, res) => {
+    db.getAdvert(req.params.advertId, res)
+})
+
+app.post('/updateViews', (req, res) => {
+    db.updateViews(req.body.advertId, res)
 })
 
 app.post('/login', (req, res) => {
@@ -34,6 +47,14 @@ app.post('/login', (req, res) => {
 
 app.post('/check-session', (req, res) => {
     db.checkSession(req.body.session, res)
+})
+
+app.get('/poster-id/:posterEmail', (req, res) => {
+    db.getPosterId(req.params.posterEmail, res)
+})
+
+app.get('/poster-username/:posterEmail', (req, res) => {
+    db.getPosterUsername(req.params.posterEmail, res)
 })
 
 app.get('/who-am-i', (req, res) => {

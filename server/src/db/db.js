@@ -11,7 +11,7 @@ function getAdverts(callback) {
     })
 }
 
-function postAdvert(email, title, description, tradefor, category, postcode, condition, res) {
+function postAdvert(email, title, description, tradefor, category, postcode, condition, imgurl, res) {
     a = new Advert({
         userEmail: email,
         title: title,
@@ -19,12 +19,47 @@ function postAdvert(email, title, description, tradefor, category, postcode, con
         tradefor: tradefor,
         category: category,
         postcode: postcode,
-        condition: condition
+        condition: condition,
+        imgurl: imgurl
     })
     a.save().then((advertData) => {
         res.send(advertData)
     }, e => {
         res.status(400).send(e.message)
+    })
+}
+
+function updateViews(id, res) {
+    Advert.findOneAndUpdate({_id: id}, {$inc : {views: 1}}, (err, advert) => {
+        if(err) return res.status(500).send(err.message)
+        if(!advert) return res.status(404)
+        return res.send(advert)
+    })
+}
+
+
+function getPosterId(email, res) {
+    User.findOne({email: email}, (err, user) => {
+        if(err) return res.status(500).send(err.message)
+        if(!user) return res.status(404)
+        return res.send(user.id)
+    })
+}
+
+function getPosterUsername(email, res) {
+    User.findOne({email: email}, (err, user) => {
+        if(err) return res.status(500).send(err.message)
+        if(!user) return res.status(404)
+        return res.send(user.username)
+    })
+}
+
+function getAdvert(id, res) {
+    Advert.findOne({ _id: id }, (err, advert) => {
+        if (err) return res.status(500).send(err)
+        if (!advert) return res.status(404)
+        console.log(advert)
+        return res.send(advert)
     })
 }
 
@@ -72,6 +107,7 @@ function checkSession(APIkey, res) {
     sessions.getSession(APIkey, session => res.send(!!session))
 }
 
+
 function whoAmI(APIkey, res) {
     sessions.emailFromSession(APIkey, email => {
         if (email) return res.send(email)
@@ -82,7 +118,7 @@ function whoAmI(APIkey, res) {
 function loginUser(email, password, res) {
     User.findOne({ email: email }, (err, user) => {
         if (err) {
-            res.status(500).send(err)
+            res.status(500).send(err.message)
         }
         if (user) {
             if (user.password == password) {
@@ -90,7 +126,7 @@ function loginUser(email, password, res) {
                     res.send(APIkey);
                 })
             } else {
-                res.status(400).send('Email and password do not match')
+                res.status(400).send('Wrong password')
             }
         } else {
             res.status(400).send('User not found')
@@ -106,5 +142,9 @@ module.exports = {
     logoutUser,
     checkSession,
     postAdvert,
-    whoAmI
+    getAdvert,
+    whoAmI,
+    updateViews,
+    getPosterId,
+    getPosterUsername
 };
