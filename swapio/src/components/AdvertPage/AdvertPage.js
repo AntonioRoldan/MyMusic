@@ -129,7 +129,7 @@ class AdvertPage extends Component {
           <p>Would trade for: {tradefor}</p>
           <p>Views: {advert.views}</p>
         </div>
-        <Button type="submit" id="contact"><Link to={`/users/${this.state.posterId}`}>See poster's profile</Link></Button>
+        <Button type="submit" id="contact"><Link to={`/users/${this.state.posterId}`}>Contact poster</Link></Button>
         <Button type="submit" id="favourite" onClick={this.addToWishlist}>Add this advert to my favourites</Button>
       </div>
     );
