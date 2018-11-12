@@ -33,6 +33,10 @@ app.post('/postadvert', (req, res) => {
     )
 })
 
+app.get('/user-id/:posterEmail', (req, res) => {
+    db.getPosterId(req.params.posterEmail, res)
+})
+
 app.get('/getAdvert/:advertId', (req, res) => {
     db.getAdvert(req.params.advertId, res)
 })
@@ -43,6 +47,10 @@ app.post('/updateViews', (req, res) => {
 
 app.post('/login', (req, res) => {
     db.loginUser(req.body.email, req.body.password, res)
+})
+
+app.post('/add-wishlist', (req, res) => {
+    db.addToWishlist(req.body.advertId, req.body.userEmail, res)
 })
 
 app.post('/check-session', (req, res) => {

@@ -37,12 +37,19 @@ function updateViews(id, res) {
     })
 }
 
-
 function getPosterId(email, res) {
     User.findOne({email: email}, (err, user) => {
         if(err) return res.status(500).send(err.message)
         if(!user) return res.status(404)
         return res.send(user.id)
+    })
+}
+
+function getUserEmail(userId, res) {
+    User.findOne({_id: userId}, (err, user) => {
+        if(err) return res.status(500).send(err.message)
+        if(!user) return res.status(404)
+        return res.send(user.email)
     })
 }
 
@@ -58,7 +65,6 @@ function getAdvert(id, res) {
     Advert.findOne({ _id: id }, (err, advert) => {
         if (err) return res.status(500).send(err)
         if (!advert) return res.status(404)
-        console.log(advert)
         return res.send(advert)
     })
 }
@@ -107,6 +113,13 @@ function checkSession(APIkey, res) {
     sessions.getSession(APIkey, session => res.send(!!session))
 }
 
+function addToWishlist(advertId, userEmail, res) {
+    User.findOneAndUpdate({email: userEmail}, {$push: {wishlist: advertId}}, (err, user) => {
+        if(err) return res.status(500).send(err.message)
+        if(user) return res.send(user)
+        return res.status(404) 
+    })
+}
 
 function whoAmI(APIkey, res) {
     sessions.emailFromSession(APIkey, email => {
@@ -146,5 +159,7 @@ module.exports = {
     whoAmI,
     updateViews,
     getPosterId,
-    getPosterUsername
+    getPosterUsername,
+    addToWishlist,
+    getUserEmail
 };

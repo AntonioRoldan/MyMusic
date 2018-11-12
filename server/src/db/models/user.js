@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     rating: {
         type: Number,
         required: false
-    }, 
+    },
     wishlist: {
         type: Array,
         required: false 
