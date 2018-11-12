@@ -27,7 +27,6 @@ class Postadvert extends Component {
       condition: parseInt(this.state.condition),
       imgurl: this.state.imgurl
     }
-    console.log('posting advert: ', form)
     
     axios.post('http://localhost:4000/postadvert', form)
     .then(res => {

@@ -17,7 +17,7 @@ class Login extends Component {
     })
       .then(res => {
         setCookie('session', res.data)
-        this.props.update(true, this.state.email)
+        this.props.update(true)
       })
       .catch(err => {
         console.error(err)

@@ -8,6 +8,7 @@ import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import Postadvert from './components/Postadvert/Postadvert'
 import AdvertPage from './components/AdvertPage/AdvertPage'
+import UserProfile from './components/UserProfile/UserProfile'
 
 import cookies from './cookies'
 import axios from 'axios'
@@ -23,9 +24,8 @@ class App extends Component {
     this.getLoginInfo()
   }
 
-  update = (loggedIn, email) => {
-    this.setState({loggedIn: loggedIn,
-      email: email
+  update = (loggedIn) => {
+    this.setState({loggedIn: loggedIn
     })
   }
 
@@ -57,6 +57,7 @@ class App extends Component {
             <Route path="/register" component={() => <Signup update={this.update}/>} />
             <Route path="/postadvert" exact component={() => <Postadvert email={this.state.email}/>} />
             <Route path="/advert/:id" exact component={AdvertPage} />
+            <Route path="/users/:id" exact component={UserProfile}/>
           </div>
         </div>
       </Router>
