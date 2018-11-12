@@ -9,6 +9,7 @@ class AdvertPage extends Component {
     posterUsername: "",
     session: "",
     userEmail: "",
+    userId:"",
     advertId: "",
     advert: null,
     error: false,
@@ -41,6 +42,19 @@ class AdvertPage extends Component {
       .catch(() => {
         this.setState({error:true})
       })
+  }
+
+  addToWishlist = () => {
+    axios.post('http://localhost:4000/add-wishlist', {
+      advertId: this.state.advertId,
+      userEmail: this.state.userEmail
+    })
+    .then(res => {
+      console.log("Advert was added to your wishlist")
+    })
+    .catch(() => {
+      this.setState({error: true})
+    })
   }
 
   getPosterId = (posterEmail) => {
@@ -116,7 +130,7 @@ class AdvertPage extends Component {
           <p>Views: {advert.views}</p>
         </div>
         <Button type="submit" id="contact"><Link to={`/users/${this.state.posterId}`}>See poster's profile</Link></Button>
-        <Button type="submit" id="favourite">Add this advert to my favourites</Button>
+        <Button type="submit" id="favourite" onClick={this.addToWishlist}>Add this advert to my favourites</Button>
       </div>
     );
   }
