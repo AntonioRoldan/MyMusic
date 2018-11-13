@@ -43,18 +43,18 @@ class UserBar extends Component {
   render() {
     if (this.state.session) {
       return (
-        <NavDropdown id="1" title={<Glyphicon glyph="user"/>}>
+        <NavDropdown id='1' title={<Glyphicon glyph='user'/>}>
           <MenuItem onClick={this.logout}>Logout</MenuItem>
           <MenuItem>
-            <Link to="/postadvert">Post advert</Link>
+            <Link to='/postadvert'>Post advert</Link>
           </MenuItem>
         </NavDropdown>
       );  
     } else {
       return (
         <NavItem eventKey={1}>
-          <Link to="/login">Login</Link>{'     '}
-          <Link to="/register">Register</Link>
+          <Link to='/login'>Login</Link>{'     '}
+          <Link to='/register'>Register</Link>
         </NavItem>
       )
     }

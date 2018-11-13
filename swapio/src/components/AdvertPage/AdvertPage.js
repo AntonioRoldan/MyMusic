@@ -6,14 +6,14 @@ import './AdvertPage.css'
 import cookies from '../../cookies'
 class AdvertPage extends Component {
   state = {
-    posterUsername: "",
-    session: "",
-    userEmail: "",
-    userId:"",
-    advertId: "",
+    posterUsername: '',
+    session: '',
+    userEmail: '',
+    userId:'',
+    advertId: '',
     advert: null,
     error: false,
-    posterId: ""
+    posterId: ''
   }
 
   getLoginInfo = () => {
@@ -50,7 +50,7 @@ class AdvertPage extends Component {
       userEmail: this.state.userEmail
     })
     .then(res => {
-      console.log("Advert was added to your wishlist")
+      console.log('Advert was added to your wishlist')
     })
     .catch(() => {
       this.setState({error: true})
@@ -102,8 +102,8 @@ class AdvertPage extends Component {
     if(postedByUser){
       return (
         <div>
-          <img src={advert.imgurl || "https://via.placeholder.com/200x200"} alt="item" class="advertimg"/>
-          <div className="details">
+          <img src={advert.imgurl || 'https://via.placeholder.com/200x200'} alt='item' class='advertimg'/>
+          <div className='details'>
             <h2>{advert.title}</h2>
             <p>Location: {advert.postcode}</p>
             <p>{advert.description}</p>
@@ -112,14 +112,14 @@ class AdvertPage extends Component {
             <p>Would trade for: {tradefor}</p>
             <p>Views: {advert.views}</p>
           </div>
-          <Button type="submit" id="favourite">Delete advert</Button>
+          <Button type='submit' id='favourite'>Delete advert</Button>
         </div>
       );
     }
     return (
       <div>
-        <img src={advert.imgurl || "https://via.placeholder.com/200x200"} alt="item" class="advertimg"/>
-        <div className="details">
+        <img src={advert.imgurl || 'https://via.placeholder.com/200x200'} alt='item' class='advertimg'/>
+        <div className='details'>
           <h2>{advert.title}</h2>
           <p>Posted by: <Link to={`/users/${this.state.posterId}`}>{this.state.posterUsername}</Link></p>
           <p>Location: {advert.postcode}</p>
@@ -129,8 +129,8 @@ class AdvertPage extends Component {
           <p>Would trade for: {tradefor}</p>
           <p>Views: {advert.views}</p>
         </div>
-        <Button type="submit" id="contact"><Link to={`/users/${this.state.posterId}`}>Contact poster</Link></Button>
-        <Button type="submit" id="favourite" onClick={this.addToWishlist}>Add this advert to my favourites</Button>
+        <Button type='submit' id='contact'><Link to={`/users/${this.state.posterId}`}>Contact poster</Link></Button>
+        <Button type='submit' id='favourite' onClick={this.addToWishlist}>Add this advert to my favourites</Button>
       </div>
     );
   }

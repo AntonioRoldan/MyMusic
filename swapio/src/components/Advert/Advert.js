@@ -10,16 +10,16 @@ class Advert extends Component {
 
     return (
       <Link to={`/advert/${advert._id}`}>
-        <Panel className="Advert" key={advert._id}>
-          <img src={advert.imgurl || "https://via.placeholder.com/200x200"} alt="item"/>
-          <div className="details">
+        <Panel className='Advert' key={advert._id}>
+          <img src={advert.imgurl || 'https://via.placeholder.com/200x200'} alt='item'/>
+          <div className='details'>
             <h2>{advert.title}</h2>
             <p>Location: {advert.postcode}</p>
             <p>{advert.description}</p>
           </div>
         </Panel>
       </Link>
-    );
+    )
   }
 }
 

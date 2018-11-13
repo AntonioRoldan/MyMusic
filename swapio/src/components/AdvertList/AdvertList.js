@@ -20,16 +20,16 @@ class AdvertList extends Component {
         console.log(error)
       })
     
-    super();
+    super()
   }
   render() {
     const adverts = this.state.adverts;
 
     return (
-      <div className="AdvertList">
+      <div className='AdvertList'>
         {adverts.map(a => <Advert key={a._id} advert={a} />)}
       </div>
-    );
+    )
   }
 }
 

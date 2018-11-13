@@ -50,18 +50,18 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
+        <div className='App'>
           <NavBar loggedIn={this.state.loggedIn}/> {/*Now the loggedin state is passed as a prop to navbar */}
-          <div className="container">
-            <Route path="/" exact component={AdvertList} />
+          <div className='container'>
+            <Route path='/' exact component={AdvertList} />
             {/*Here update on the left is this.props.update which is how we are gonna call the function from the login component whereas this.update is a reference to the function's definition in appjs */}
-            <Route path="/login" component={() => <Login update={this.update} />} />
-            <Route path="/register" component={() => <Signup update={this.update}/>} />
-            <Route path="/postadvert" exact component={() => <Postadvert email={this.state.email}/>} />
-            <Route path="/advert/:id" exact component={AdvertPage} />
-            <Route path="/users/:id" exact component={PosterProfile}/>
-            <Route path="/myprofile/:id" exact component={UserProfile}/>
-            <Route path="/contact/:id" exact component={ContactPoster}/>
+            <Route path='/login' component={() => <Login update={this.update} />} />
+            <Route path='/register' component={() => <Signup update={this.update}/>} />
+            <Route path='/postadvert' exact component={() => <Postadvert email={this.state.email}/>} />
+            <Route path='/advert/:id' exact component={AdvertPage} />
+            <Route path='/users/:id' exact component={PosterProfile}/>
+            <Route path='/myprofile/:id' exact component={UserProfile}/>
+            <Route path='/contact/:id' exact component={ContactPoster}/>
           </div>
         </div>
       </Router>

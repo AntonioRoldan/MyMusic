@@ -17,16 +17,16 @@ class NavBar extends Component {
         <Navbar.Collapse>
           <Navbar.Form pullLeft>
             <FormGroup>
-              <FormControl type="text" placeholder="Search" />
+              <FormControl type='text' placeholder='Search' />
             </FormGroup>{' '}
-            <Button type="submit">Search</Button>
+            <Button type='submit'>Search</Button>
           </Navbar.Form>
           <Nav pullRight> {/* Once loggedin has been passed as a prop to navbar we send it as a prop to userbar*/}
             <UserBar loggedIn={this.props.loggedIn}/>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-    );
+    )
   }
 }
 
