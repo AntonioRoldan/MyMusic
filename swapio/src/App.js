@@ -8,7 +8,9 @@ import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import Postadvert from './components/Postadvert/Postadvert'
 import AdvertPage from './components/AdvertPage/AdvertPage'
+import PosterProfile from './components/PosterProfile/PosterProfile'
 import UserProfile from './components/UserProfile/UserProfile'
+import ContactPoster from './components/ContactPoster/ContactPoster'
 
 import cookies from './cookies'
 import axios from 'axios'
@@ -57,7 +59,9 @@ class App extends Component {
             <Route path="/register" component={() => <Signup update={this.update}/>} />
             <Route path="/postadvert" exact component={() => <Postadvert email={this.state.email}/>} />
             <Route path="/advert/:id" exact component={AdvertPage} />
-            <Route path="/users/:id" exact component={UserProfile}/>
+            <Route path="/users/:id" exact component={PosterProfile}/>
+            <Route path="/myprofile/:id" exact component={UserProfile}/>
+            <Route path="/contact/:id" exact component={ContactPoster}/>
           </div>
         </div>
       </Router>
