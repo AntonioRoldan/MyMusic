@@ -4,14 +4,21 @@ const User = require('./models/user')
 const validation = require('./validation')
 const sessions = require('./sessions')
 
-function getAdverts(callback) {
+function getAdverts(callback) { 
     Advert.find({}).then((adverts) => {
         adverts.sort((a, b) => a.views > b.views)
         callback(null, adverts)
     })
 }
 
-function postAdvert(email, title, description, tradefor, category, postcode, condition, imgurl, res) {
+function deleteAdvert(advertId) { //done 
+    Advert.findOneAndDelete({_id: advertId}, (err, advert) => {
+        if(err) return 500
+        return advert 
+    })
+}
+
+function postAdvert(email, title, description, tradefor, category, postcode, condition, imgurl) { //done 
     a = new Advert({
         userEmail: email,
         title: title,
@@ -23,29 +30,24 @@ function postAdvert(email, title, description, tradefor, category, postcode, con
         imgurl: imgurl
     })
     a.save().then((advertData) => {
-        res.send(advertData)
+        return advertData
     }, e => {
-        res.status(400).send(e.message)
+        return 500
     })
 }
 
-function updateViews(id, res) {
-    Advert.findOneAndUpdate({_id: id}, {$inc : {views: 1}}, (err, advert) => {
-        if(err) return res.status(500).send(err.message)
-        if(!advert) return res.status(404)
-        return res.send(advert)
-    })
-}
-
-function getPosterId(email, res) {
+function getPoster(email, callback) {
     User.findOne({email: email}, (err, user) => {
-        if(err) return res.status(500).send(err.message)
-        if(!user) return res.status(404)
-        return res.send(user.id)
+        if(err) return callback(500)
+        if(!user) return callback(404)
+        return callback(false, {
+            id: user._id,
+            username: user.username
+        })
     })
 }
 
-function getUserEmail(userId, res) {
+function getUserEmail(userId, res) { 
     User.findOne({_id: userId}, (err, user) => {
         if(err) return res.status(500).send(err.message)
         if(!user) return res.status(404)
@@ -53,29 +55,21 @@ function getUserEmail(userId, res) {
     })
 }
 
-function getPosterUsername(email, res) {
-    User.findOne({email: email}, (err, user) => {
-        if(err) return res.status(500).send(err.message)
-        if(!user) return res.status(404)
-        return res.send(user.username)
-    })
-}
-
-function getAdvert(id, res) {
+function getAdvert(id, callback) {
     Advert.findOne({ _id: id }, (err, advert) => {
-        if (err) return res.status(500).send(err)
-        if (!advert) return res.status(404)
-        return res.send(advert)
+        if (err) return callback(500)
+        if (!advert) return callback(404)
+        callback(false, advert)
     })
 }
 
-function registerUser(username, email, password, confirmpassword, res) {
+function registerUser(username, email, password, confirmpassword) { //done 
     User.findOne({ email: email }, (err, user) => {
         if (err) {
-            res.status(500).send(err)
+            return 500
         }
         if (user) { //If the user already exists 
-            res.status(400).send('Email already exists')
+            return 400
         } else {
             try {
                 validation.validUser({
@@ -85,32 +79,32 @@ function registerUser(username, email, password, confirmpassword, res) {
                     confirmpassword: confirmpassword
                 })
             } catch (e) {
-                return res.status(400).send(e.message)
+                return 406
             }
             var u = new User({ username: username, email: email, password: password })
             u.save().then((userData) => {
-                res.send(userData)
+                return userData //The code must be changed to be more testable 
             }, e => {
-                res.status(400).send(e)
+                return 500
             })
         }
     })
 }
 
-function logoutUser(APIkey, res) {
+function logoutUser(APIkey) { //done 
     sessions.getSession(APIkey, session => {
         if (session) {
             sessions.invalidatePrevSessions(session.email, () => {
-                res.send('Success')
+                return 'Success'
             })
         } else {
-            res.send(`Cannot find session ${APIkey}`)
+            return `Cannot find session ${APIkey}`
         }
     })
 }
 
-function checkSession(APIkey, res) {
-    sessions.getSession(APIkey, session => res.send(!!session))
+function checkSession(APIkey, callback) {
+    sessions.getSession(APIkey, session => callback(session))
 }
 
 function addToWishlist(advertId, userEmail, res) {
@@ -121,28 +115,26 @@ function addToWishlist(advertId, userEmail, res) {
     })
 }
 
-function whoAmI(APIkey, res) {
+function whoAmI(APIkey) { //done 
     sessions.emailFromSession(APIkey, email => {
-        if (email) return res.send(email)
-        res.status(404).send("")
+        if (email) return email 
+        return 400 
     })
 }
 
-function loginUser(email, password, res) {
+function loginUser(email, password, callback) { //done 
     User.findOne({ email: email }, (err, user) => {
-        if (err) {
-            res.status(500).send(err.message)
-        }
+        if (err) return callback(500)
         if (user) {
             if (user.password == password) {
                 sessions.newSession(email, APIkey => {
-                    res.send(APIkey);
+                    return callback(false, APIkey)
                 })
             } else {
-                res.status(400).send('Wrong password')
+                return callback(404)
             }
         } else {
-            res.status(400).send('User not found')
+            return callback(400)
         }
     })
 }
@@ -157,9 +149,8 @@ module.exports = {
     postAdvert,
     getAdvert,
     whoAmI,
-    updateViews,
-    getPosterId,
-    getPosterUsername,
+    getPoster,
     addToWishlist,
-    getUserEmail
+    getUserEmail,
+    deleteAdvert
 };

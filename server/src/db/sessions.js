@@ -60,7 +60,8 @@ function emailFromSession(APIkey, callback) {
         APIkey: APIkey
     }, (err, session) => {
         if (err) return callback("")
-        return callback(session.email)
+        if (session) return callback(session.email)
+        return callback("")
     });
 }
 
