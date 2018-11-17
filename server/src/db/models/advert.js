@@ -11,16 +11,16 @@ const advertSchema = new mongoose.Schema({
         required: true,
         minlength: 1,
         trim: true,
-    }, 
+    },
     description: {
         type: String,
         required: true,
         minlength: 1,
     },
-    tradefor: {         //It could be traded by an item or a list of items can we store arrays or should we create an item document could we store an item document here? 
+    tradefor: {
         type: Array,
         required: true,
-    }, 
+    },
     category: {
         type: String,
         required: true,
@@ -32,7 +32,7 @@ const advertSchema = new mongoose.Schema({
     views: {
         type: Number,
         required: false
-    }, 
+    },
     condition: {
         type: Number,
         required: true
@@ -41,7 +41,7 @@ const advertSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-});
+})
 
-const Advert = mongoose.model('Advert', advertSchema);
-module.exports = Advert;
+const Advert = mongoose.model('Advert', advertSchema)
+module.exports = Advert

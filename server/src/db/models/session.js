@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const sessionSchema = new mongoose.Schema({
-    email: { 
+    email: {
         type: String,
         required: true,
         minlength: 1,
@@ -16,7 +16,7 @@ const sessionSchema = new mongoose.Schema({
         type: Date,
         required: true,
     }
-});
+})
 
-const Session = mongoose.model('Session', sessionSchema);
-module.exports = Session;
+const Session = mongoose.model('Session', sessionSchema)
+module.exports = Session

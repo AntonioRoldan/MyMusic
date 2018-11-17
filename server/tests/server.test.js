@@ -1,6 +1,6 @@
-const server = require('../../server')
-const test = require('supertest')
-const request = require('request')
+const server = require('../server')
+const test = require('tape')
+const request = require('supertest')
 
 test('User registration', (t) => {
     request(server)
@@ -8,7 +8,6 @@ test('User registration', (t) => {
             username: 'Teodor',
             email: 'teodorAtaranov@bulgarian.badass',
             password: 'cowboyfromhell',
-            confirmpassword: 'cowboyfromhell'
         })
         .expect('Content-Type', /json/)
         .expect(200)
@@ -16,10 +15,10 @@ test('User registration', (t) => {
             if (err) throw err
             const registeredUser = {
                 username: 'Teodor',
-                email: 'teodorAtaranov@bulgarian.badass',
-                password: 'cowboyfromhell',
-                confirmpassword: 'cowboyfromhell'
+                email: 'teodorAtaranov@bulgarian.badass'
             }
-            t.error()
+            t.error(err, 'Something')
+            t.same(res.body, registeredUser)
+            t.end()
         })
 })

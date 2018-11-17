@@ -1,9 +1,9 @@
 const {mongoose} = require('./mongoose')
 const Advert = require('./models/advert')
 
-const db = mongoose.connection;
+const db = mongoose.connection
 
-db.once('open', function () {
+db.once('open', () => {
     const ad = new Advert({
         userEmail: 'bob@lmao.com',
         title: 'Washing machine',
@@ -24,12 +24,13 @@ db.once('open', function () {
         views: 23,
         condition: 4
     })
-    ad.save(function (err, newAd) {
+    ad.save((err, newAd) => {
         if (err) console.error(err)
         console.log('added', newAd.title)
-    });
-    adTwo.save(function (err, newAd) {
+    })
+    adTwo.save((err, newAd) => {
+        if (err) console.log(err)
         console.log('added', newAd.title)
-    });
+    })
 })
 
