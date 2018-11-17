@@ -5,6 +5,7 @@ const sessions = require('./sessions')
 
 function getAdverts(callback) {
     Advert.find({}).then((adverts) => {
+        console.log(adverts)
         adverts.sort((a, b) => a.views > b.views)
         callback(null, adverts)
     })
@@ -81,7 +82,10 @@ function registerUser(username, email, password, callback) { //done
             }
             const u = new User({ username: username, email: email, password: password })
             u.save().then((userData) => {
-                return callback(false, userData) //The code must be changed to be more testable
+                return callback(false, {
+                    username: userData.username,
+                    email: userData.email
+                }) //The code must be changed to be more testable
             }, e => {
                 return callback(500, e.message)
             })
