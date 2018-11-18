@@ -3,9 +3,10 @@ const User = require('./models/user')
 const validation = require('./validation')
 const sessions = require('./sessions')
 
+require('./mongoose')
+
 function getAdverts(callback) {
     Advert.find({}).then((adverts) => {
-        console.log(adverts)
         adverts.sort((a, b) => a.views > b.views)
         callback(null, adverts)
     })
@@ -63,12 +64,12 @@ function getAdvert(id, callback) {
     })
 }
 
-function registerUser(username, email, password, callback) { //done
+function registerUser(username, email, password, callback) {
     User.findOne({ email: email }, (err, user) => {
         if (err) {
             return callback(500, 'Failed to connect to database')
         }
-        if (user) { //If the user already exists
+        if (user) {
             return callback(400, 'User already exists')
         } else {
             try {
@@ -87,6 +88,7 @@ function registerUser(username, email, password, callback) { //done
                     email: userData.email
                 }) //The code must be changed to be more testable
             }, e => {
+                console.log(e)
                 return callback(500, e.message)
             })
         }

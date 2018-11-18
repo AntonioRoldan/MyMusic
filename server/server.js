@@ -11,6 +11,7 @@ app.use(cors())
 const port = 4000
 
 app.post('/register', (req, res) => {
+    console.log(req.body)
     db.registerUser(req.body.username, req.body.email, req.body.password, (error, result) => {
         if(error) return res.status(error).send(result)
         return res.send(result)

@@ -1,4 +1,3 @@
-
 const db = require('../src/db/db')
 
 
@@ -13,3 +12,7 @@ describe('getAdverts', () => {
         })
     })
 })
+
+
+setTimeout(() => process.exit(0), 3000)
+
