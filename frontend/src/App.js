@@ -17,54 +17,62 @@ import axios from 'axios'
 
 class App extends Component {
   state = {
-  	loggedIn: false,
-  	email: '',
-  	session: ''
+    loggedIn: false,
+    email: '',
+    session: '',
   }
 
   componentDidMount = () => {
-  	this.getLoginInfo()
+    this.getLoginInfo()
   }
 
-  update = (loggedIn) => {
-  	this.setState({loggedIn: loggedIn
-  	})
+  update = loggedIn => {
+    this.setState({ loggedIn: loggedIn })
   }
 
   getLoginInfo = () => {
-  	this.setState({
-  		session: cookies.getCookie('session')
-  	}, () => {
-  		axios.get('http://localhost:4000/who-am-i', {
-  			headers: {
-  				Authorization: this.state.session
-  			}
-  		}).then(res => {
-  			this.setState({
-  				email: res.data
-  			})
-  		})
-  	})
+    this.setState(
+      {
+        session: cookies.getCookie('session'),
+      },
+      () => {
+        axios
+          .get('http://localhost:4000/who-am-i', {
+            headers: {
+              Authorization: this.state.session,
+            },
+          })
+          .then(res => {
+            this.setState({
+              email: res.data,
+            })
+          })
+      }
+    )
   }
 
   render() {
-  	return (
-  		<Router>
-  			<div className='App'>
-  				<NavBar loggedIn={this.state.loggedIn}/>
-  				<div className='container'>
-  					<Route path='/' exact component={AdvertList} />
-  					<Route path='/login' component={() => <Login update={this.update} />} />
-  					<Route path='/register' component={() => <Signup update={this.update}/>} />
-  					<Route path='/postadvert' exact component={() => <Postadvert email={this.state.email}/>} />
-  					<Route path='/advert/:id' exact component={AdvertPage} />
-  					<Route path='/users/:id' exact component={PosterProfile}/>
-  					<Route path='/myprofile/:id' exact component={UserProfile}/>
-  					<Route path='/contact/:id' exact component={ContactPoster}/>
-  				</div>
-  			</div>
-  		</Router>
-  	)
+    return (
+      <Router>
+        <div className="App">
+          <NavBar loggedIn={this.state.loggedIn} />
+          <div className="container">
+            <Route path="/" exact component={AdvertList} />
+            <Route path="/login" component={() => <Login update={this.update} />} />
+            <Route path="/register" component={() => <Signup update={this.update} />} />
+            <Route
+              path="/postadvert"
+              exact
+              component={() => <Postadvert email={this.state.email} />}
+            />
+            <Route path="/advert/:id" exact component={AdvertPage} />
+            <Route path="/users/:id" exact component={PosterProfile} />
+            <Route path="/myprofile/:id" exact component={UserProfile} />
+            <Route path="/contact/:id" exact component={ContactPoster} />
+          </div>
+        </div>
+      </Router>
+    )
   }
 }
 

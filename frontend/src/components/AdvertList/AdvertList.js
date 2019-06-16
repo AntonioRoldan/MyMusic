@@ -6,30 +6,33 @@ import Advert from '../Advert/Advert'
 
 class AdvertList extends Component {
   state = {
-  	adverts: []
+    adverts: [],
   }
 
   constructor() {
-  	axios.get('http://localhost:4000/adverts')
-  		.then(res => {
-  			this.setState({
-  				adverts: res.data
-  			})
-  		})
-  		.catch(error => {
-  			console.log(error)
-  		})
+    axios
+      .get('http://localhost:4000/adverts')
+      .then(res => {
+        this.setState({
+          adverts: res.data,
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
 
-  	super()
+    super()
   }
   render() {
-  	const adverts = this.state.adverts
+    const adverts = this.state.adverts
 
-  	return (
-  		<div className='AdvertList'>
-  			{adverts.map(a => <Advert key={a._id} advert={a} />)}
-  		</div>
-  	)
+    return (
+      <div className="AdvertList">
+        {adverts.map(a => (
+          <Advert key={a._id} advert={a} />
+        ))}
+      </div>
+    )
   }
 }
 

@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "format": "prettier --write *.js src/**/*.{js,jsx,css}"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.9.0"
+    "eslint": "^5.9.0",
+    "prettier": "^1.18.2"
   }
 }
