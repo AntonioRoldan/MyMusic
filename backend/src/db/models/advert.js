@@ -17,8 +17,8 @@ const advertSchema = new mongoose.Schema({
         required: true,
         minlength: 1,
     },
-    tradefor: {
-        type: Array,
+    price: {
+        type: Number,
         required: true,
     },
     category: {
@@ -39,7 +39,7 @@ const advertSchema = new mongoose.Schema({
     },
     imgurl: {
         type: String,
-        required: true
+        required: false
     }
 })
 

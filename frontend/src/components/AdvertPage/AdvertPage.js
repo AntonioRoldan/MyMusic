@@ -4,6 +4,11 @@ import axios from 'axios'
 import { Button } from 'react-bootstrap'
 import './AdvertPage.css'
 import cookies from '../../cookies'
+
+function displayPrice(x) {
+  return `£${x / 100}`
+}
+
 class AdvertPage extends Component {
   state = {
     poster: {},
@@ -83,7 +88,7 @@ class AdvertPage extends Component {
     this.getLoginInfo()
   }
 
-  renderAdvert = (postedByUser, advert, tradefor) => {
+  renderAdvert = (postedByUser, advert, price) => {
     const { poster } = this.state
     if (postedByUser) {
       return (
@@ -99,7 +104,7 @@ class AdvertPage extends Component {
             <p>{advert.description}</p>
             <p>Category: {advert.category}</p>
             <p>Item condition: {advert.condition}</p>
-            <p>Would trade for: {tradefor}</p>
+            <p>Price: {displayPrice(price)}</p>
             <p>Views: {advert.views}</p>
           </div>
           <Button type="submit" id="favourite">
@@ -124,11 +129,11 @@ class AdvertPage extends Component {
           <p>{advert.description}</p>
           <p>Category: {advert.category}</p>
           <p>Item condition: {advert.condition}</p>
-          <p>Would trade for: {tradefor}</p>
+          <p>Price: {displayPrice(price)}</p>
           <p>Views: {advert.views}</p>
         </div>
         <Button type="submit" id="contact">
-          <Link to={`/users/${this.state.posterId}`}>Contact poster</Link>
+          <Link to={`/chat/${poster.id}`}>Contact poster</Link>
         </Button>
         <Button type="submit" id="favourite" onClick={this.addToWishlist}>
           Add this advert to my favourites
@@ -147,12 +152,11 @@ class AdvertPage extends Component {
       )
     }
     const advert = this.state.advert
-    if (this.state.advert) {
-      const tradefor = advert.tradefor.join(', ')
+    if (advert) {
       if (advert.userEmail === this.state.userEmail) {
-        return this.renderAdvert(true, advert, tradefor)
+        return this.renderAdvert(true, advert, advert.price)
       } else {
-        return this.renderAdvert(false, advert, tradefor)
+        return this.renderAdvert(false, advert, advert.price)
       }
     } else {
       return <p>loading...</p>

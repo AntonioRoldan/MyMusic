@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import './App.css'
 import NavBar from './components/NavBar/NavBar'
@@ -20,6 +20,7 @@ class App extends Component {
     loggedIn: false,
     email: '',
     session: '',
+    search: '',
   }
 
   componentDidMount = () => {
@@ -55,20 +56,23 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <NavBar loggedIn={this.state.loggedIn} />
+          <NavBar loggedIn={this.state.loggedIn} search={this.search} />
           <div className="container">
-            <Route path="/" exact component={AdvertList} />
-            <Route path="/login" component={() => <Login update={this.update} />} />
-            <Route path="/register" component={() => <Signup update={this.update} />} />
-            <Route
-              path="/postadvert"
-              exact
-              component={() => <Postadvert email={this.state.email} />}
-            />
-            <Route path="/advert/:id" exact component={AdvertPage} />
-            <Route path="/users/:id" exact component={PosterProfile} />
-            <Route path="/myprofile/:id" exact component={UserProfile} />
-            <Route path="/contact/:id" exact component={ContactPoster} />
+            <Switch>
+              <Route path="/" exact component={AdvertList} />
+              <Route path="/search/:search" component={AdvertList} />
+              <Route path="/login" component={() => <Login update={this.update} />} />
+              <Route path="/register" component={() => <Signup update={this.update} />} />
+              <Route
+                path="/postadvert"
+                exact
+                component={() => <Postadvert email={this.state.email} />}
+              />
+              <Route path="/advert/:id" exact component={AdvertPage} />
+              <Route path="/user/:id" exact component={PosterProfile} />
+              <Route path="/myprofile/:id" exact component={UserProfile} />
+              <Route path="/chat/:id" exact component={ContactPoster} />
+            </Switch>
           </div>
         </div>
       </Router>

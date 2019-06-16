@@ -1,0 +1,13 @@
+.message {
+  font-size: 1.2em;
+}
+
+.sent {
+  text-align: right;
+  color: #337ab7;
+}
+
+.date {
+  font-size: 0.8em;
+  color: grey;
+}

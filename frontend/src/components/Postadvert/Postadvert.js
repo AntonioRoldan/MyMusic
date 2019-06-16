@@ -7,7 +7,7 @@ class Postadvert extends Component {
   state = {
     title: '',
     description: '',
-    tradefor: [],
+    price: [],
     category: '',
     postcode: '',
     condition: 0,
@@ -15,13 +15,12 @@ class Postadvert extends Component {
   }
 
   postadvert = () => {
-    const tradefor = this.state.tradefor.split(',').map(x => x.trim())
-
+    const price = parseInt(this.state.price * 100)
     const form = {
       email: this.props.email,
       title: this.state.title,
       description: this.state.description,
-      tradefor: tradefor,
+      price: price,
       category: this.state.category,
       postcode: this.state.postcode,
       condition: parseInt(this.state.condition),
@@ -112,14 +111,12 @@ class Postadvert extends Component {
           </FormControl>
         </FormGroup>
 
-        <FormGroup controlId="formControlsTradefor">
-          <ControlLabel>
-            Items you would like to trade your item for separated by commas
-          </ControlLabel>
+        <FormGroup controlId="formControlsPrice">
+          <ControlLabel>Set a price for your item</ControlLabel>
           <FormControl
             componentClass="textarea"
-            placeholder="Write a list of objects you are willing to trade your item for"
-            name="tradefor"
+            placeholder="Give a price to your item"
+            name="price"
             onChange={this.handleChange}
           />
         </FormGroup>

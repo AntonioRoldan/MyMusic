@@ -11,7 +11,6 @@ app.use(cors())
 const port = 4000
 
 app.post('/register', (req, res) => {
-  console.log(req.body)
   db.registerUser(req.body.username, req.body.email, req.body.password, (error, result) => {
     if (error) return res.status(error).send(result)
     return res.send(result)
@@ -23,7 +22,7 @@ app.post('/postadvert', (req, res) => {
     req.body.email,
     req.body.title,
     req.body.description,
-    req.body.tradefor,
+    req.body.price,
     req.body.category,
     req.body.postcode,
     req.body.condition,
@@ -33,6 +32,13 @@ app.post('/postadvert', (req, res) => {
       return res.send(result)
     }
   )
+})
+
+app.get('/adverts/:search', (req, res) => {
+  db.searchItem(req.params.search, (err, adverts) => {
+    if (err) return res.status(err)
+    return res.send(adverts)
+  })
 })
 
 app.post('/deleteAdvert', (req, res) => {
@@ -109,7 +115,21 @@ app.post('/logout', (req, res) => {
 app.get('/adverts', (_, res) => {
   db.getAdverts((err, items) => {
     if (err) return res.status(500).send(err)
-    res.send(items)
+    return res.send(items)
+  })
+})
+
+app.get('/chats/:otherUserId', (req, res) => {
+  db.getChat(req.headers.authorization, req.params.otherUserId, (err, data) => {
+    if (err) return res.sendStatus(err)
+    return res.send(data)
+  })
+})
+
+app.post('/chats/send', (req, res) => {
+  db.sendChatMessage(req.headers.authorization, req.body.to, req.body.message, (err, data) => {
+    if (err) return res.status(err).send(data)
+    return res.send(data)
   })
 })
 

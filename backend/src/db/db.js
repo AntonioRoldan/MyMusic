@@ -1,5 +1,6 @@
 const Advert = require('./models/advert')
 const User = require('./models/user')
+const Chat = require('./models/chat')
 const validation = require('./validation')
 const sessions = require('./sessions')
 
@@ -20,11 +21,20 @@ function deleteAdvert(advertId, callback) {
   })
 }
 
+function searchItem(search, callback) {
+  Advert.find({ title: new RegExp(search, 'i') }, (err, adverts) => {
+    if (err) return callback(500)
+    if (!adverts) return callback(404)
+    adverts.sort((a, b) => a.views > b.views)
+    return callback(false, adverts)
+  })
+}
+
 function postAdvert(
   email,
   title,
   description,
-  tradefor,
+  price,
   category,
   postcode,
   condition,
@@ -36,7 +46,7 @@ function postAdvert(
     userEmail: email,
     title: title,
     description: description,
-    tradefor: tradefor,
+    price: price,
     category: category,
     postcode: postcode,
     condition: condition,
@@ -175,6 +185,67 @@ function loginUser(email, password, callback) {
   })
 }
 
+function userBySession(APIKey, callback) {
+  whoAmI(APIKey, data => {
+    User.find({ email: data }, (err, data) => {
+      if (err) return callback(err, "Can't find 'to' user")
+
+      const user = data[0]
+      if (!user) return callback(404, "Can't find user")
+
+      return callback(false, {
+        _id: user._id,
+        email: user.email,
+        userHas: user.userHas,
+        userWants: user.userWants,
+      })
+    })
+  })
+}
+
+function getChat(APIkey, otherUserId, callback) {
+  userBySession(APIkey, async (err, data) => {
+    if (err) return callback(500, err)
+    const userId = data._id
+    return callback(false, {
+      sent: await Chat.find({
+        to: otherUserId,
+        from: userId,
+      }),
+      recieved: await Chat.find({
+        to: userId,
+        from: otherUserId,
+      }),
+    })
+  })
+}
+
+function sendChatMessage(APIkey, otherUserId, message, callback) {
+  userBySession(APIkey, (err, data) => {
+    if (err) return callback(err, data)
+    const userId = data._id
+
+    const newChat = new Chat({
+      from: userId,
+      to: otherUserId,
+      message: message,
+    })
+
+    newChat.save().then(
+      () => {
+        getChat(APIkey, otherUserId, (err, data) => {
+          if (err) return callback(err, data)
+          return callback(false, data)
+        })
+      },
+      e => {
+        console.log(e)
+        return callback(500, e.message)
+      }
+    )
+  })
+}
+
 module.exports = {
   getAdverts,
   registerUser,
@@ -188,4 +259,7 @@ module.exports = {
   addToWishlist,
   getUserEmail,
   deleteAdvert,
+  searchItem,
+  getChat,
+  sendChatMessage,
 }

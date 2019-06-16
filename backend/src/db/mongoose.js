@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 console.log('connecting to database...')
 
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost:27017/swapio', { useNewUrlParser: true }, err => {
+mongoose.connect('mongodb://localhost:27017/mystuff', { useNewUrlParser: true }, err => {
   if (!err) {
     console.log('...connected to database')
   } else {
