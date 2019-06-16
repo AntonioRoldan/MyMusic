@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "clear && node supertest/server.test.js && jest tests --forceExit --detectOpenHandles"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
